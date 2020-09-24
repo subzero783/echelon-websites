@@ -482,7 +482,9 @@ final class OCEANWP_Theme_Class {
 		// Comment reply.
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
-		}
+    }
+    
+    wp_register_script('many-chat', '//widget.manychat.com/114007130343261.js', array(), '', true);
 
 		// Add images loaded.
 		wp_enqueue_script( 'imagesloaded' );
