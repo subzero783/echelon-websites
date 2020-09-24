@@ -12,7 +12,8 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-
+  <!-- ManyChat -->   
+  <script src="//widget.manychat.com/114007130343261.js" async="async"></script>
 	<?php wp_head(); ?>
 </head>
 
