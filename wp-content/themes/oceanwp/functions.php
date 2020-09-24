@@ -484,11 +484,12 @@ final class OCEANWP_Theme_Class {
 			wp_enqueue_script( 'comment-reply' );
     }
     
-    wp_register_script('many-chat', '//widget.manychat.com/114007130343261.js', array(), '', true);
+    wp_register_script('many-chat', '//widget.manychat.com/114007130343261.js', array(), '', false);
 
 		// Add images loaded.
 		wp_enqueue_script( 'imagesloaded' );
 
+    
 		// Register nicescroll script to use it in some extensions.
 		wp_register_script( 'nicescroll', $dir . 'third/nicescroll.min.js', array( 'jquery' ), $theme_version, true );
 
