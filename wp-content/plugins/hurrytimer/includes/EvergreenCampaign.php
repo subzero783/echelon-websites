@@ -118,6 +118,16 @@ class EvergreenCampaign extends Campaign
         setcookie(CookieDetection::cookieName($this->get_id()), $timestamp,
             time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN);
 
+        $result = $this->IPDetection->find($this->get_id());
+
+        if ($result) {
+            // Update IP expiration timestamp.
+            $this->IPDetection->update($result['id'], $timestamp);
+        } else {
+            // We create an IP entry.
+            $this->IPDetection->create($this->get_id(), $timestamp);
+        }
+
         return $this->getEndDate();
     }
 

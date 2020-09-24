@@ -81,7 +81,7 @@ trait Admin
                                 <div class="templately-right">
                                     <div class="templately-admin-install">
                                         <p><?php echo __( 'Install Templately by Essential Addons to get access to the templates library and cloud.', 'essential-addons-for-elementor-lite' ); ?></p>
-                                        <button class="eae-activate-templately"><?php echo $button_text; ?></button>    
+                                        <button class="eae-activate-templately"><?php echo $button_text; ?></button>
                                     </div>
                                 </div>
                             </div>
@@ -142,11 +142,36 @@ trait Admin
             wp_enqueue_style('sweetalert2-css', EAEL_PLUGIN_URL . '/assets/admin/vendor/sweetalert2/css/sweetalert2.min.css', false, EAEL_PLUGIN_VERSION);
             wp_enqueue_script('sweetalert2-js', EAEL_PLUGIN_URL . '/assets/admin/vendor/sweetalert2/js/sweetalert2.min.js', array('jquery', 'sweetalert2-core-js'), EAEL_PLUGIN_VERSION, true);
             wp_enqueue_script('sweetalert2-core-js', EAEL_PLUGIN_URL . '/assets/admin/vendor/sweetalert2/js/core.js', array('jquery'), EAEL_PLUGIN_VERSION, true);
+
             wp_enqueue_script('essential_addons_elementor-admin-js', EAEL_PLUGIN_URL . '/assets/admin/js/admin.js', array('jquery'), EAEL_PLUGIN_VERSION, true);
+
+            //Internationalizing JS string translation
+            $i18n = [
+                    'login_register' => [
+	                        //m=modal, rm=response modal, r=reCAPTCHA, g= google, f=facebook, e=error
+                            'm_title' => __('Login | Register Form Settings', 'essential-addons-for-elementor-lite'),
+                            'm_footer' => $this->pro_enabled ? __('To configure the API Keys, check out this doc', 'essential-addons-for-elementor-lite') :  __('To retrieve your API Keys, click here', 'essential-addons-for-elementor-lite'),
+                            'save' => __('Save', 'essential-addons-for-elementor-lite'),
+                            'cancel' => __('Cancel', 'essential-addons-for-elementor-lite'),
+                            'rm_title' => __('Login | Register Form Settings Saved', 'essential-addons-for-elementor-lite'),
+                            'rm_footer' => __('Reload the page to see updated data', 'essential-addons-for-elementor-lite'),
+                            'e_title' => __('Oops...', 'essential-addons-for-elementor-lite'),
+                            'e_text' => __('Something went wrong!', 'essential-addons-for-elementor-lite'),
+                            'r_title' => __('reCAPTCHA v2', 'essential-addons-for-elementor-lite'),
+                            'r_sitekey' => __('Site Key', 'essential-addons-for-elementor-lite'),
+                            'r_sitesecret' => __('Site Secret', 'essential-addons-for-elementor-lite'),
+                            'g_title' => __('Google Login', 'essential-addons-for-elementor-lite'),
+                            'g_cid' => __('Google Client ID', 'essential-addons-for-elementor-lite'),
+                            'f_title' => __('Facebook Login', 'essential-addons-for-elementor-lite'),
+                            'f_app_id' => __('Facebook APP ID', 'essential-addons-for-elementor-lite'),
+                            'f_app_secret' => __('Facebook APP Secret', 'essential-addons-for-elementor-lite'),
+                    ]
+            ];
 
             wp_localize_script('essential_addons_elementor-admin-js', 'localize', array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('essential-addons-elementor'),
+                'i18n' => $i18n,
             ));
         }
     }
@@ -205,13 +230,34 @@ include_once EAEL_PLUGIN_PATH . DIRECTORY_SEPARATOR . 'includes/templates/admin/
      */
     public function save_settings()
     {
-        check_ajax_referer('essential-addons-elementor', 'security');
+	    check_ajax_referer('essential-addons-elementor', 'security');
 
         if (!isset($_POST['fields'])) {
             return;
         }
 
         parse_str($_POST['fields'], $settings);
+	    if ( !empty( $_POST['is_login_register']) ) {
+		    // Saving Login | Register Related Data
+		    if ( isset( $settings['recaptchaSiteKey']) ) {
+			    update_option( 'eael_recaptcha_sitekey', sanitize_text_field( $settings['recaptchaSiteKey']));
+		    }
+		    if ( isset( $settings['recaptchaSiteSecret']) ) {
+			    update_option( 'eael_recaptcha_secret', sanitize_text_field( $settings['recaptchaSiteSecret']));
+		    }
+		    //pro settings
+		    if ( isset( $settings['gClientId']) ) {
+			    update_option( 'eael_g_client_id', sanitize_text_field( $settings['gClientId']));
+		    }
+		    if ( isset( $settings['fbAppId'] ) ) {
+			    update_option( 'eael_fb_app_id', sanitize_text_field( $settings['fbAppId']));
+		    }
+		    if ( isset( $settings['fbAppSecret'] ) ) {
+			    update_option( 'eael_fb_app_secret', sanitize_text_field( $settings['fbAppSecret']));
+		    }
+		    wp_send_json_success( ['message'=> __('Login | Register Settings updated', 'essential-addons-for-elementor-lite')]);
+        }
+
 
         // Saving Google Map Api Key
         update_option('eael_save_google_map_api', @$settings['google-map-api']);
@@ -306,9 +352,9 @@ include_once EAEL_PLUGIN_PATH . DIRECTORY_SEPARATOR . 'includes/templates/admin/
          * classes for wrapper,
          * Message message for showing.
          */
-        $notice->classes('upsale', 'notice is-dismissible ');
-        $notice->message('upsale', '<p>' . __('5,000+ People using <a href="https://betterdocs.co/wordpress-plugin" target="_blank">BetterDocs</a> to create better Documentation & Knowledge Base!', 'essential-addons-for-elementor-lite') . '</p>');
-        $notice->thumbnail('upsale', plugins_url('assets/admin/images/icon-documentation.svg', EAEL_PLUGIN_BASENAME));
+        // $notice->classes('upsale', 'notice is-dismissible ');
+        // $notice->message('upsale', '<p>' . __('5,000+ People using <a href="https://betterdocs.co/wordpress-plugin" target="_blank">BetterDocs</a> to create better Documentation & Knowledge Base!', 'essential-addons-for-elementor-lite') . '</p>');
+        // $notice->thumbnail('upsale', plugins_url('assets/admin/images/icon-documentation.svg', EAEL_PLUGIN_BASENAME));
 
         // Update Notice For PRO Version
         if ($this->pro_enabled && \version_compare(EAEL_PRO_PLUGIN_VERSION, '4.0.0', '<')) {
@@ -317,36 +363,25 @@ include_once EAEL_PLUGIN_PATH . DIRECTORY_SEPARATOR . 'includes/templates/admin/
             $notice->thumbnail('update', plugins_url('assets/admin/images/icon-ea-logo.svg', EAEL_PLUGIN_BASENAME));
         }
 
-        // if( ! $this->pro_enabled ) {
-        //     $notice->classes( 'update_400k', 'notice is-dismissible ' );
-        //     $notice->message( 'update_400k', '<p>'. __( 'Time to celebrate! EA for Elementor 400K+ happy users 🎉 Spin The Wheel & Try Your Luck <a href="https://wpdeveloper.net/ea-400k-giveaway" target="_blank">WIN PRO License</a>', 'essential-addons-for-elementor-lite' ) .'</p>' );
-        //     $notice->thumbnail( 'update_400k', plugins_url( 'assets/admin/images/icon-ea-logo.svg', EAEL_PLUGIN_BASENAME ) );
-        // }
-
-        $notice->upsale_args = array(
-            'slug' => 'betterdocs',
-            'page_slug' => 'betterdocs-setup',
-            'file' => 'betterdocs.php',
-            'btn_text' => __('Install Free', 'essential-addons-for-elementor-lite'),
-            'condition' => [
-                'by' => 'class',
-                'class' => 'BetterDocs',
-            ],
-        );
-
+        // $notice->upsale_args = array(
+        //     'slug' => 'betterdocs',
+        //     'page_slug' => 'betterdocs-setup',
+        //     'file' => 'betterdocs.php',
+        //     'btn_text' => __('Install Free', 'essential-addons-for-elementor-lite'),
+        //     'condition' => [
+        //         'by' => 'class',
+        //         'class' => 'BetterDocs',
+        //     ],
+        // );
         $notice->options_args = array(
             'notice_will_show' => [
                 'opt_in' => $notice->timestamp,
-                'upsale' => $notice->makeTime($notice->timestamp, '14 Day'),
                 'review' => $notice->makeTime($notice->timestamp, '7 Day'), // after 3 days
             ],
         );
         if ($this->pro_enabled && \version_compare(EAEL_PRO_PLUGIN_VERSION, '4.0.0', '<')) {
             $notice->options_args['notice_will_show']['update'] = $notice->timestamp;
         }
-        // if( ! $this->pro_enabled ) {
-        //     $notice->options_args['notice_will_show']['update_400k'] = $notice->makeTime($notice->timestamp, '1 Hour');
-        // }
 
         $notice->init();
     }

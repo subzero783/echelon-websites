@@ -3,11 +3,11 @@ Contributors: nlemsieh
 Donate link: https://www.paypal.me/nlemsieh
 Tags: sale countdown,recurring countdown,webinar timer,woocommerce,countdown timer,evergreen countdown timer,elementor countdown,divi countdown,shipping cut-off timer,woocommerce countdown timer,woocommerce scarcity,scarcity,urgency timer,beaver timer,funnel countdown timer,landing page,coming soon page,delivery timer
 Requires at least: 4.0
-Tested up to: 5.4
+Tested up to: 5.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Requires PHP: 5.4
-Stable tag: 2.2.27
+Stable tag: 2.2.27.1
 
 Create unlimited urgency and scarcity evergreen and recurring countdown timers for WordPress and WooCommerce to boost conversions and sales instantly.
 
@@ -119,17 +119,18 @@ We improve HurryTimer continuously to fit your needs, if you have a feature requ
 == Screenshots ==
 
 1. "Evergreen" mode settings.
-2. "Recurring" mode settings.
-3. "One-Time (regular)" mode settings.
-4. Actions settings.
-5. Add a countdown timer to a WooCommerce single product page.
-6. Change every element visibility.
-7. Set custom timer labels.
-8. Live design customizer settings.
-9. Call-to-Action button settings
-10. Sticky Bar settings
+2. "One-Time (regular)" mode settings.
+3. Actions settings.
+4. Add a countdown timer to a WooCommerce single product page.
+5. Change every element visibility.
+6. Set custom timer labels.
+7. Live design customizer settings.
+8. Call-to-Action button settings
 
 == Changelog ==
+
+= 2.2.27.1 =
+- Fixed a small issue with detection when cookies are cached.
 
 = 2.2.27 =
 

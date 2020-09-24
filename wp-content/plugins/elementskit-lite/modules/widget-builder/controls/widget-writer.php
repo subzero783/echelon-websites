@@ -1,6 +1,6 @@
 <?php
 
-namespace ElementsKit\Modules\Widget_Builder\Controls;
+namespace ElementsKit_Lite\Modules\Widget_Builder\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -18,7 +18,7 @@ class Widget_Writer {
 	private $class_name_prefix = 'Ekit_Wb_';
 	private $widget_obj;
 	private $prepared_content = '';
-	public $text_domain = 'elementskit';
+	public $text_domain = 'elementskit-lite';
 
 	const TAB_CONTENT = 'Controls_Manager::TAB_CONTENT';
 	const TAB_STYLE = 'Controls_Manager::TAB_STYLE';
@@ -29,7 +29,7 @@ class Widget_Writer {
 	const CONTROL_GROUP_TYPE_GROUPED = 'group';
 
 
-	public function __construct($widget, $widget_id, $txt_domain = 'elementskit') {
+	public function __construct($widget, $widget_id, $txt_domain = 'elementskit-lite') {
 
 		$this->widget_obj  = $widget;
 		$this->file_name   = '';
@@ -49,10 +49,11 @@ class Widget_Writer {
 
 		$css_enqueue = $this->prepare_css_file($this->widget_obj->css, $wp_filesystem);
 		$js_enqueue  = $this->prepare_js_file($this->widget_obj->js, $wp_filesystem);
+		$include_js  = !empty($this->widget_obj->js_includes) || !empty($this->widget_obj->css_includes);
 
 		$content = $this->prepare_php_file();
 
-		if($css_enqueue === true || $js_enqueue === true) {
+		if($css_enqueue === true || $js_enqueue === true || $include_js === true) {
 
 			$content .= $this->write_construct_method($css_enqueue, $js_enqueue);
 		}
@@ -160,6 +161,26 @@ class Widget_Writer {
 
 		if($js === true) {
 			$ret .= "\t\t" . 'wp_register_script( \'' . $nm . '-script-handle\', \'' . $url_path . '/script.js\', [ \'elementor-frontend\' ], \'1.0.0\', true );' . PHP_EOL;
+		}
+
+		if(!empty($this->widget_obj->css_includes)) {
+
+			$ret .= PHP_EOL;
+
+			foreach($this->widget_obj->css_includes as $idx => $cssInclude) {
+
+				$ret .= "\t\t" . 'wp_enqueue_style( \'' . $nm . '-'.$idx.'-style-handle\', \'' . $cssInclude . '\');' . PHP_EOL;
+			}
+		}
+
+		if(!empty($this->widget_obj->js_includes)) {
+
+			$ret .= PHP_EOL;
+
+			foreach($this->widget_obj->js_includes as $idx => $jsInclude) {
+
+				$ret .= "\t\t" . 'wp_enqueue_script( \'' . $nm . '-'.$idx.'-script-handle\', \'' . $jsInclude . '\', [ \'elementor-frontend\' ], \'1.0.0\', true );' . PHP_EOL;
+			}
 		}
 
 		$ret .= "\t" . '}' . PHP_EOL . PHP_EOL;
@@ -393,7 +414,7 @@ class Widget_Writer {
 
 	private function write_render_method($markup = '') {
 
-		$markup = \ElementsKit\Libs\Template\Loader::instance()->replace_tags($markup, $this->control_prefix);
+		$markup = \ElementsKit_Lite\Libs\Template\Loader::instance()->replace_tags($markup, $this->control_prefix);
 
 		$ret = "\n\t" . 'protected function render() {' . PHP_EOL;
 

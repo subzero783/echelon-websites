@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Codetic, re_enter_rupok, Asif2BD, priyomukul, mahfuz01, nazsabuz, manzurahammed
 Tags: elementor, elements, addons, elementor addon, elementor widget, elementor form, woocommerce elementor, page builder, builder, visual editor, wordpress page builder
 Requires at least: 4.0
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.4
-Stable tag: 4.1.1
+Stable tag: 4.2.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -224,10 +224,48 @@ Your existing elements/content will work with premium version. So you won't lose
 
 == Changelog ==
 
+= 4.2.4 - 13/09/2020 =
+- Fixed: get_elements_data on bool error
+- Fixed: PHP error notice for 'Search & Filter' option in EA Filterable Gallery
+- Fixed: Unable to format quiz field in EA Contact Form 7
+- Fixed: EA Sticky Video not working when it's used multiple times on a page
+- Fixed: Sale badge and Overlay issues with EA Product Grid
+- Improved: New Design and Style controls for EA Dual Color Heading
+- Improved: Styling controls for EA Product Grid
+- Few minor bugfix and improvements
+
+= 4.2.3 - 03/09/2020 =
+- Removed: Dashboard widget 
+- Fixed: EA Filterable Gallery | Showing Duplicate Images in Gallery View
+- Few minor bugfix and improvements
+
+= 4.2.2 - 27/08/2020 =
+- Fixed: Sorting not working when Pagination is disabled in EA Advanced Data Table
+- Added: Styling controls for reCAPTCHA in EA Login | Register Form
+- Added: Translatable Strings in EA Login | Register Form
+- Added: Options to change the Error Messages in EA Login | Register Form
+- Few minor bugfix and improvements
+
+= 4.2.1 - 20/08/2020 =
+- Added: Google reCAPTCHA option in EA Login | Register Form
+- Added: Compatibility with WooCommerce 4.4.1
+- Fixed: User Role not setting correctly in EA Login | Register Form
+- Few minor bugfix and improvements
+
+= 4.2.0 - 06/08/2020 =
+- Added: EA Login | Register Widget
+- Removed: Upsell Notices
+- Added: Compatibility with WooCommerce 4.3.1
+- Fixed: SSL Issue
+- Few minor bugfix and improvements
+
+= 4.1.2 - 30/07/2020 =
+- Fixed: EA Twitter Feed | Content length issue
+- Fixed: EA Woo Checkout Coupons showing despite disabling from Woo Settings
+- Few minor bugfix and improvements
+
 = 4.1.1 - 23/07/2020 =
 - Improved: EA Typeform with auth2 authentication
-- Fixed: EA Instagram Feed not showing Videos
-- Fixed: EA Instagram Feed post limit issue
 - Fixed: EA Sticky Video PHP error with Image Overlay option
 - Fixed: EA Reading Progress Bar & EA TOC not working inside Elementor Editor
 - Fixed: EA Filterable Gallery- broken link issue

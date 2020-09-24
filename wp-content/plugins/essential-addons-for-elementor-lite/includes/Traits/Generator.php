@@ -143,7 +143,10 @@ trait Generator
 
                 if ($element['widgetType'] === 'global') {
                     $document = Plugin::$instance->documents->get($element['templateID']);
-                    $collections = array_merge($collections, $this->collect_recursive_elements($document->get_elements_data()));
+
+                    if (is_object($document)) {
+                        $collections = array_merge($collections, $this->collect_recursive_elements($document->get_elements_data()));
+                    }
                 } else {
                     $collections[] = $element['widgetType'];
                 }
@@ -194,6 +197,10 @@ trait Generator
 
         if ($this->loaded_templates && $context == 'view' && $ext == 'js') {
             foreach ($this->loaded_templates as $post_id) {
+                if (get_post_status($post_id) === false) {
+                    continue;
+                }
+                
                 $document = Plugin::$instance->documents->get($post_id);
 
                 if ($custom_js = $document->get_settings('eael_custom_js')) {
@@ -263,6 +270,10 @@ trait Generator
 
         if ($this->loaded_templates && $context == 'view' && $ext == 'js') {
             foreach ($this->loaded_templates as $post_id) {
+                if (get_post_status($post_id) === false) {
+                    continue;
+                }
+
                 $document = Plugin::$instance->documents->get($post_id);
 
                 if ($custom_js = $document->get_settings('eael_custom_js')) {
